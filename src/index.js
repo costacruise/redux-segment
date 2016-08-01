@@ -8,7 +8,11 @@ import { extractGroupFields } from './event/group';
 
 
 function emit(type: string, fields: Array) {
-  window.analytics && window.analytics[type](...fields);
+  if (typeof window !== 'undefined' && typeof window.analytics !== undefined) {
+    window.analytics && window.analytics[type](...fields);
+  } else {
+    console.log('running in node.js');
+  }
 }
 
 function createTracker(customOptions = {}) {
